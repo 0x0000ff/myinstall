@@ -25,7 +25,7 @@ echo 127.0.1.1 myhostname.localdomain myhostname >> /etc/hostname
 echo -ne '\n' | pacman -S --noconfirm git base-devel elinks efibootmgr bluez wpa_supplicant openvpn connman dialog
 
 # Mate Packages 
-echo -ne '\n' | sudo pacman -S --noconfirm mate xorg mate-media mate-power-manager system-config-printer blueman arc-gtk-theme arc-icon-theme mate-utils
+echo -ne '\n' | sudo pacman -S --noconfirm mate xorg mate-media mate-power-manager system-config-printer blueman arc-gtk-theme arc-icon-theme mate-utils eom
 
 #Mate Config
 gsettings set org.mate.Marco.general compositing-manager true
