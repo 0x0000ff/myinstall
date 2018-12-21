@@ -1,3 +1,9 @@
+# Username and Password
+read -p "Username: " MYNAME
+mkdir /home/$MYNAME
+useradd -d /home/$MYNAME -g wheel $MYNAME -s /postinstall.sh
+passwd
+
 #Mate Config
 gsettings set org.mate.Marco.general compositing-manager true
 gsettings set org.mate.Marco.general allow-tiling true
