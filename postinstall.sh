@@ -1,9 +1,4 @@
 # Username and Password
-read -p "Username: " MYNAME
-mkdir /home/$MYNAME
-useradd -d /home/$MYNAME -g wheel $MYNAME -s /postinstall.sh
-passwd
-
 #Mate Config
 gsettings set org.mate.Marco.general compositing-manager true
 gsettings set org.mate.Marco.general allow-tiling true
@@ -17,7 +12,7 @@ systemctl disable lightdm.service
 systemctl enable lightdm-plymouth.service
 cd ..
 
-git clone https://aur.archlinux.org/snapd.git; cd snapd
+;it clone https://aur.archlinux.org/snapd.git; cd snapd
 makepkg -si --noconfirm
 systemctl enable apparmor.service
 systemctl enable snapd.apparmor.service

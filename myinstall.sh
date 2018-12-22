@@ -63,5 +63,14 @@ echo -ne '\n' | pacman -S --noconfirm git base-devel elinks efibootmgr bluez wpa
 # Mate Packages 
 echo -ne '\n' | pacman -S --noconfirm mate xorg mate-media mate-power-manager system-config-printer blueman arc-gtk-theme arc-icon-theme mate-utils eom
 
+exit
 EOF
+
+read -p "Username: " $USNAME
+mkdir /mnt/home/$USNAME
+chroot /mnt /usr/bin/bash -c "useradd -d /home/$USNAME -G wheel $USENAME"
+echo "Password for root: "
+chroot /mnt /usr/bin/bash -c "passwd"
+echo "Password for user: "
+chroot /mnt /usr/bin/bash -c "passwd $USNAME"
 
