@@ -5,12 +5,12 @@ lsblk
 read -p "Installation Device: " HARDDRIVE
 sudo gdisk $HARDDRIVE
 read -p "Install Partition Number: " PARTNO
-sudo mkfs.btrfs -b 4096 $HARDDRIVE$PARTNO
+sudo mkfs.btrfs -f $HARDDRIVE$PARTNO
 #sudo tune2fs -O encrypt /dev/sda1
 sudo mount $HARDDRIVE$PARTNO /mnt
 
 # Download verify and install bootstrap
-#curl -O http://mirror.rackspace.com/archlinux/iso/latest/archlinux-bootstrap-$(date +%Y.%m).01-x86_64.tar.gz
+curl -O http://mirror.rackspace.com/archlinux/iso/latest/archlinux-bootstrap-$(date +%Y.%m).01-x86_64.tar.gz
 curl -O http://mirror.rackspace.com/archlinux/iso/latest/archlinux-bootstrap-$(date +%Y.%m).01-x86_64.tar.gz.sig
 curl -O http://mirror.rackspace.com/archlinux/iso/latest/md5sums.txt
 curl -O http://mirror.rackspace.com/archlinux/iso/latest/sha1sums.txt
