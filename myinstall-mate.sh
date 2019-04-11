@@ -60,6 +60,9 @@ pacman -Syy
 # Base Packages
 echo -ne '\n' | pacman -S --noconfirm git base base-devel elinks efibootmgr bluez wpa_supplicant openvpn connman dialog grub os-prober efibootmgr e2fsprogs
 
+# Mate Packages 
+echo -ne '\n' | pacman -S --noconfirm mate xorg mate-media mate-power-manager system-config-printer blueman arc-gtk-theme arc-icon-theme mate-utils eom
+
 read -p "EFI Partition: " $BOOTPART
 mkdir /boot/efi
 mount /dev/$BOOTPART
