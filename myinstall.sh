@@ -1,6 +1,7 @@
 #!/bin/sh
-sudo add-apt-repository universe
-sudo apt install curl
+sudo add-apt-repository multiverse
+sudo apt update
+sudo apt install curl arch-install-scripts
 
 # Disk Partitioning and mount
 lsblk
@@ -15,7 +16,7 @@ sudo mount $HARDDRIVE$PARTNO /mnt
 
 lsblk
 read -p "EFI Partition: " BOOTPART 
-mkdir /mnt/boot/efi
+mkdir -p /mnt/boot/efi
 mount $BOOTPART /mnt/boot/efi
 
 # Download verify and install bootstrap
@@ -82,7 +83,7 @@ sed 's/#COMPRESSION="lz4"/COMPRESSION="lz4"/' /etc/mkinitcpio.conf
 mkinitcpio -p linux
 
 grub-mkconfig -o /boot/grub/grub.cfg
-grub-install --directory=/boot/grub/efi --target=x86_64-efi --bootloader-id=GRUB
+grub-install --target=x86_64-efi ---efi-directory=/boot/grub/efi -bootloader-id=GRUB
 
 EOF
 
