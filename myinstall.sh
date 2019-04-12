@@ -87,7 +87,7 @@ grub-install --target=x86_64-efi --efi-directory=/boot/grub/efi bootloader-id=GR
 EOF
 
 read -p "Username: " USERNAME
-sudo chroot /mnt /usr/bin/useradd -b /home -G wheel $USERNAME
+sudo chroot /mnt /usr/bin/useradd -b /home -G wheel -m $USERNAME
 sudo chroot /mnt /usr/bin/passwd $USERNAME
 echo "Password for Root:"
 sudo chroot /mnt /usr/bin/passwd
