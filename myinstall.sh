@@ -78,8 +78,8 @@ echo -ne '\n' | pacman -S --noconfirm base base-devel elinks efibootmgr bluez wp
 
 lsblk
 mkdir /boot/grub
-sed 's/COMPRESSION="gzip"/#COMPRESSION="gzip"/' /etc/mkinitcpio.conf
-sed 's/#COMPRESSION="lz4"/COMPRESSION="lz4"/' /etc/mkinitcpio.conf
+sed -i 's/COMPRESSION="gzip"/#COMPRESSION="gzip"/' /etc/mkinitcpio.conf
+sed -i 's/#COMPRESSION="lz4"/COMPRESSION="lz4"/' /etc/mkinitcpio.conf
 mkinitcpio -p linux
 
 grub-mkconfig -o /boot/grub/grub.cfg
