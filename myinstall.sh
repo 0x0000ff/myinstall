@@ -6,10 +6,15 @@ read -p "Installation Device: " HARDDRIVE
 sudo gdisk $HARDDRIVE
 read -p "Install Partition Number: " PARTNO
 echo '-writing new filesystem'
-sudo mkfs.btrfs -f $HARDDRIVE$PARTNO
-#sudo tune2fs -O encrypt /dev/sda1
+sudo mkfs.btrfs -f -n 64k $HARDDRIVE$PARTNO
+
 echo '-mounting filesystem'
 sudo mount $HARDDRIVE$PARTNO /mnt
+
+lsblk
+read -p "EFI Partition: " BOOTPART
+mkdir /mnt/boot/efi
+mount /dev/$BOOTPART
 
 # Download verify and install bootstrap
 echo '-fetching bootstrap and keys'
@@ -38,6 +43,7 @@ echo 127.0.0.1 localhost >> /mnt/etc/hosts
 echo ::1 localhost >> /mnt/etc/hosts
 echo 127.0.1.1 $MYHOSTNAME.localdomain $MYHOSTNAME >> /mnt/etc/hosts
 sudo vi /mnt/etc/pacman.d/mirrorlist
+genfstab -U /mnt >> /mnt/etc/fstab
 
 # Chroot
 sudo mount --bind /mnt /mnt
@@ -55,8 +61,8 @@ ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime
 hwclock --systohc
 echo en_GB.UTF-8 UTF-8 >> /etc/locale.gen
 echo en_US.UTF-8 UTF-8 >> /etc/locale.gen
-locale-gen
 echo LANG=en_GB.UTF-8 > /etc/locale.conf
+locale-gen
 echo KEYMAP=uk > /etc/vconsole.conf
 
 vi /etc/pacman.d/mirrorlist
@@ -65,35 +71,16 @@ pacman-key --populate archlinux
 pacman -Syy
 
 # Base Packages
-echo -ne '\n' | pacman -S --noconfirm git base base-devel elinks efibootmgr bluez wpa_supplicant openvpn connman dialog grub efibootmgr e2fsprogs lz4
-
-# Desktop Packages 
-read -p "Desktop Environment (1 for MATE, 2 for Gnome): " DCHOICE
-
-if [[ $DCHOICE == "1" ]]; then 
-	echo -ne '\n' | pacman -S --noconfirm mate xorg mate-media mate-power-manager system-config-printer blueman arc-gtk-theme arc-icon-theme mate-utils eom
-fi
-
-if [[ $DCHOICE == "2" ]]; then
-	echo -ne '\n' | pacman -S --noconfirm gnome
-fi
+echo -ne '\n' | pacman -S --noconfirm base base-devel elinks efibootmgr bluez wpa_supplicant openvpn dialog grub efibootmgr e2fsprogs lz4 git
 
 lsblk
-read -p "EFI Partition: " BOOTPART
-mkdir /boot/efi
-mount /dev/$BOOTPART
 mkdir /boot/grub
+sed 's/COMPRESSION="gzip"/#COMPRESSION="gzip"/' /etc/mkinitcpio.conf
+sed 's/#COMPRESSION="lz4"/COMPRESSION="lz4"/' /etc/mkinitcpio.conf
+mkinitcpio -p linux
+
 grub-mkcfg -o /boot/grub/grub.cfg
 grub-install --directory=/boot/grub/efi --target=x86_64-efi --bootloader-id=GRUB
-sed 's/COMPRESSION="gzip"/#COMPRESSION="gzip"/' /mnt/etc/mkinitcpio.conf
-sed 's/#COMPRESSION="lz4"/COMPRESSION="lz4"/' /mnt/etc/mkinitcpio.conf
-mkinitcpio -p linux
-read -p "New User: " $USERNAME
-useradd -b /home/$USERNAME -G wheel $USERNAME
-echo 'User Password: '
-passwd $USERNAME
-echo 'Root Password: '
-passwd
 
 EOF
 
