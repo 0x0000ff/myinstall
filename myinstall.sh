@@ -35,7 +35,6 @@ sleep 5s
 echo '-extracting bootstrap'
 sudo tar -xzvf archlinux-bootstrap-$(date +%Y.%m).01-x86_64.tar.gz -C /mnt
 sudo mv /mnt/root.x86_64/* /mnt
-sudo cp postinstall.sh /mnt
 sudo cp postinstall-gnome.sh /mnt
 sudo mkdir /boot/efi
 
@@ -87,3 +86,10 @@ grub-install --target=x86_64-efi --efi-directory=/boot/grub/efi bootloader-id=GR
 
 EOF
 
+read -p "Username: " USERNAME
+sudo chroot /mnt /usr/bin/useradd -b /home -G wheel $USERNAME
+sudo chroot /mnt /usr/bin/passwd $USERNAME
+echo "Password for Root:"
+sudo chroot /mnt /usr/bin/passwd
+sudo chroot /mnt /usr/bin/visudo
+sudo cp postinstall.sh /mnt/home/$USERNAME
