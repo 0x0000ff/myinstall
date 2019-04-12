@@ -1,4 +1,5 @@
 # Username and Password
+locale-gen
 read -p "Username: " MYNAME
 mkdir /home/$MYNAME
 useradd -d /home/$MYNAME -g wheel $MYNAME -s /postinstall.sh
