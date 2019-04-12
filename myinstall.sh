@@ -28,6 +28,7 @@ echo '-extracting bootstrap'
 sudo tar -xzvf archlinux-bootstrap-$(date +%Y.%m).01-x86_64.tar.gz -C /mnt
 sudo mv /mnt/root.x86_64/* /mnt
 sudo cp postinstall.sh /mnt
+sudo cp postinstall-gnome.sh /mnt
 sudo mkdir /boot/efi
 
 echo '-setting network'
@@ -87,5 +88,12 @@ grub-install --directory=/boot/grub/efi --target=x86_64-efi --bootloader-id=GRUB
 sed 's/COMPRESSION="gzip"/#COMPRESSION="gzip"/' /mnt/etc/mkinitcpio.conf
 sed 's/#COMPRESSION="lz4"/COMPRESSION="lz4"/' /mnt/etc/mkinitcpio.conf
 mkinitcpio -p linux
+read -p "New User: " $USERNAME
+useradd -b /home/$USERNAME -G wheel $USERNAME
+echo 'User Password: '
+passwd $USERNAME
+echo 'Root Password: '
+passwd
+
 EOF
 
