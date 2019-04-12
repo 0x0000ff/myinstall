@@ -1,4 +1,10 @@
 # Username and Password
+read -p "Username: " $USERNAME
+useradd -b /home/$USERNAME -g wheel $USERNAME
+passwd $USERNAME
+visudo 
+passwd
+
 read -p "Desktop Environment (1 or mate and 2 for gnome): " $DECHOICE  
 
 if [[ $DECHOICE == "1" ]]; then

@@ -83,7 +83,7 @@ sed 's/#COMPRESSION="lz4"/COMPRESSION="lz4"/' /etc/mkinitcpio.conf
 mkinitcpio -p linux
 
 grub-mkconfig -o /boot/grub/grub.cfg
-grub-install --target=x86_64-efi ---efi-directory=/boot/grub/efi -bootloader-id=GRUB
+grub-install --target=x86_64-efi --efi-directory=/boot/grub/efi bootloader-id=GRUB
 
 EOF
 
