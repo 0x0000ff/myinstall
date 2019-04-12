@@ -1,4 +1,5 @@
 #!/bin/sh
+sudo add-apt-repository universe multiverse
 sudo apt install curl
 
 # Disk Partitioning and mount
@@ -7,15 +8,15 @@ read -p "Installation Device: " HARDDRIVE
 sudo gdisk $HARDDRIVE
 read -p "Install Partition Number: " PARTNO
 echo '-writing new filesystem'
-sudo mkfs.btrfs -f -n 64k $HARDDRIVE$PARTNO
+sudo mkfs.btrfs -f -n 64K $HARDDRIVE$PARTNO
 
 echo '-mounting filesystem'
 sudo mount $HARDDRIVE$PARTNO /mnt
 
 lsblk
-read -p "EFI Partition: " BOOTPART
+read -p "EFI Partition: " BOOTPART 
 mkdir /mnt/boot/efi
-mount /dev/$BOOTPART
+mount $BOOTPART /mnt/boot/efi
 
 # Download verify and install bootstrap
 echo '-fetching bootstrap and keys'
