@@ -1,4 +1,5 @@
 #!/bin/sh
+sudo apt install curl
 
 # Disk Partitioning and mount
 lsblk
