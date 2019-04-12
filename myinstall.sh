@@ -1,5 +1,5 @@
 #!/bin/sh
-sudo add-apt-repository universe multiverse
+sudo add-apt-repository universe
 sudo apt install curl
 
 # Disk Partitioning and mount
