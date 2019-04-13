@@ -94,11 +94,13 @@ sudo chroot /mnt /usr/bin/passwd
 sudo chroot /mnt /usr/bin/visudo
 read -p "Desktop Environment (1 for mate, 2 for gnome, 3 for kde):" $DECHOICE
 if [[ "$DECHOICE" == "1" ]]; then
-	sudo chroot /mnt /usr/bin/pacman -S --noconfirm mate-extra connman xorg-server mate-media mate-power-manager system-config-printer blueman arc-gtk-theme arc-icon-theme mate-utils eom lightdm
+	sudo chroot /mnt /usr/bin/pacman -S --noconfirm mate-extra connman xorg-server mate-media mate-power-manager system-config-printer blueman arc-gtk-theme arc-icon-theme mate-utils eom lightdm lightdm-gtk-greeter
 	sudo cp postinstall-mate.sh /mnt/home/$USERNAME
+fi
 
 if [[ "$DECHOICE" == "2" ]]; then
 	sudo chroot /mnt /usr/bin/pacman -S --noconfirm gnome
+	sudo systemctl enable gdm
 	sudo cp postinstall-gnome.sh /mnt/home/$USERNAME
 fi
 
