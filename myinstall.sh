@@ -92,4 +92,18 @@ sudo chroot /mnt /usr/bin/passwd $USERNAME
 echo "Password for Root:"
 sudo chroot /mnt /usr/bin/passwd
 sudo chroot /mnt /usr/bin/visudo
-sudo cp postinstall.sh /mnt/home/$USERNAME
+read -p "Desktop Environment (1 for mate, 2 for gnome, 3 for kde):" $DECHOICE
+if [[ "$DECHOICE" == "1" ]]; then
+	sudo chroot /mnt /usr/bin/pacman -S --noconfirm mate-extra connman xorg-server mate-media mate-power-manager system-config-printer blueman arc-gtk-theme arc-icon-theme mate-utils eom lightdm
+	sudo cp postinstall-mate.sh /mnt/home/$USERNAME
+
+if [[ "$DECHOICE" == "2" ]]; then
+	sudo chroot /mnt /usr/bin/pacman -S --noconfirm gnome
+	sudo cp postinstall-gnome.sh /mnt/home/$USERNAME
+fi
+
+if [[ "$DECHOICE" == "3" ]]; then
+	sudo chroot /mnt /usr/bin/pacman -s --noconfirm plasma xorg kde-appplications
+	sudo cp postinstall-kde.sh /mnt/home/$USERNAME
+fi
+sudo cat postinstall.sh >> /mnt/home/$USERNAME/postinstall*
