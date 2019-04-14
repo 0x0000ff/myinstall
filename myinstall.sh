@@ -99,8 +99,10 @@ if [[ "$DECHOICE" == "1" ]]; then
 fi
 
 if [[ "$DECHOICE" == "2" ]]; then
-	sudo chroot /mnt /usr/bin/pacman -S --noconfirm gnome
+	sudo chroot /mnt /usr/bin/pacman -S --noconfirm gnome networkmanager
 	sudo systemctl enable gdm
+	sudo systemctl disable netctl
+	sudo systemctl enable networkmanager
 	sudo cp postinstall-gnome.sh /mnt/home/$USERNAME
 fi
 
